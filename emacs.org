@@ -129,6 +129,7 @@ Dit zorgt ervoor dat matching haakjes hetzelfde kleur zullen hebben.
 #+BEGIN_SRC emacs-lisp
 (use-package magit
 :ensure t
+:bind ("C-x g" . magit-status)
 )
 #+END_SRC
 * Javascript
