@@ -67,7 +67,24 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
+(show-paren-mode 1)
   #+END_SRC
+** Rainbow mode
+Dit zal ervoor zorgen dat kleuren zoals #ffffff rood gekleurd zullen zijn.
+#+BEGIN_SRC emacs-lisp
+(use-package rainbow-mode
+  :ensure t
+  :init
+    (add-hook 'prog-mode-hook 'rainbow-mode))
+#+END_SRC
+** Rainbow delimiters
+Dit zorgt ervoor dat matching haakjes hetzelfde kleur zullen hebben.
+#+BEGIN_SRC emacs-lisp
+(use-package rainbow-delimiters
+  :ensure t
+  :init
+    (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
+#+END_SRC
 * Tabs
   #+BEGIN_SRC emacs-lisp
 (setq tab-width 8)
@@ -145,4 +162,8 @@
     :ensure t
     :config 
       (add-hook 'prog-mode-hook (lambda () (editorconfig-mode 1))))
+#+END_SRC
+* SubWord
+#+BEGIN_SRC emacs-lisp
+(global-subword-mode 1)
 #+END_SRC
