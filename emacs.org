@@ -1,0 +1,87 @@
+#+title: Emacs Configuratie
+* Evil-Mode
+  #+BEGIN_SRC emacs-lisp  
+(use-package evil
+:config (evil-mode 1))
+  #+END_SRC
+* org-bullets
+  #+BEGIN_SRC emacs-lisp
+  (use-package org-bullets
+    :ensure t
+    :config
+      (add-hook 'org-mode-hook (lambda () (org-bullets-mode))))
+  #+END_SRC
+* Linum
+  #+BEGIN_SRC emacs-lisp 
+(add-hook 'prog-mode 'linum-mode)
+(add-hook 'text-mode 'linum-mode)
+(use-package linum-relative
+  :load-path "linum-relative-master"
+  :hook ((prog-mode text-mode) . linum-relative-mode))
+(column-number-mode)
+  #+END_SRC
+* Autopair
+  #+BEGIN_SRC emacs-lisp
+(use-package autopair
+:load-path "autopair-master"
+:config (autopair-global-mode))
+  #+END_SRC
+* Highlight indent
+  #+BEGIN_SRC emacs-lisp
+(use-package highlight-indent-guides
+:load-path "highlight-indent-guides-master"
+:init (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+      (setq highlight-indent-guides-method 'column))
+
+  #+END_SRC
+* Dracula Theme
+  #+BEGIN_SRC emacs-lisp
+(add-to-list 'custom-theme-load-path (expand-file-name "~/.emacs.d/themes/"))
+(load-theme 'dracula t)
+  #+END_SRC
+
+* Visuals
+  #+BEGIN_SRC emacs-lisp
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+  #+END_SRC
+* Tabs
+  #+BEGIN_SRC emacs-lisp
+(setq tab-width 8)
+(setq defaul-tab-width 4)
+(defvaralias 'c-basic-offset 'tab-width)
+(defvaralias 'js2-basic-offset 'defaul-tab-width)
+  #+END_SRC
+* TLS
+  #+BEGIN_SRC emacs-lisp
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3") 
+  #+END_SRC
+
+* Custom code
+** Inbetween parens
+   #+BEGIN_SRC emacs-lisp
+(defun inbetween-parentheses (beg end)
+  (interactive (list (point) (mark)))
+  (kill-region beg end)
+  (insert "\(")
+  (yank)
+  (insert "\)"))
+(global-set-key (kbd "C-x C-p") 'inbetween-parentheses)
+   #+END_SRC
+* Font
+#+BEGIN_SRC emacs-lisp
+(set-frame-font "Terminus-16")
+#+END_SRC
+* pdf-tools
+#+BEGIN_SRC emacs-lisp
+  (use-package pdf-tools
+    :ensure t
+    :init (pdf-tools-install))
+#+END_SRC
+* Helm
+#+BEGIN_SRC emacs-lisp
+(use-package helm
+:ensure t
+:bind ("C-x C-f" . 'helm-find-files))
+#+END_SRC
