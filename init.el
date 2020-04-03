@@ -50,7 +50,7 @@
  '(inhibit-startup-screen t)
  '(package-selected-packages
    (quote
-    (pdf-tools highlight-indent-guides rainbow-mode evil company auto-complete auto-compile))))
+    (rjsx-mode pdf-tools highlight-indent-guides rainbow-mode evil company auto-complete auto-compile))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
