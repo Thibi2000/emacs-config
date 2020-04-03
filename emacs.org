@@ -168,3 +168,29 @@ Dit zorgt ervoor dat matching haakjes hetzelfde kleur zullen hebben.
 #+BEGIN_SRC emacs-lisp
 (global-subword-mode 1)
 #+END_SRC
+* Rust
+#+BEGIN_SRC emacs-lisp
+(use-package rust-mode
+:ensure t
+:mode "\\.rs\\'")
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(use-package ob-rust
+:ensure t)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(use-package cargo
+:ensure t
+:hook (rust-mode . cargo-minor-mode)
+#+END_SRC  
+
+
+* Zig
+#+BEGIN_SRC emacs-lisp
+(use-package zig-mode
+:ensure t
+:mode "\\.zig'")
+#+END_SRC
+
