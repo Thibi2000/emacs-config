@@ -7,6 +7,7 @@
 * Evil-Mode
   #+BEGIN_SRC emacs-lisp  
 (use-package evil
+:ensure t
 :config (evil-mode 1))
   #+END_SRC
 * Org
