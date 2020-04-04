@@ -183,9 +183,8 @@ Dit zorgt ervoor dat matching haakjes hetzelfde kleur zullen hebben.
 #+BEGIN_SRC emacs-lisp
 (use-package cargo
 :ensure t
-:hook (rust-mode . cargo-minor-mode)
+:hook (rust-mode . cargo-minor-mode))
 #+END_SRC  
-
 
 * Zig
 #+BEGIN_SRC emacs-lisp
