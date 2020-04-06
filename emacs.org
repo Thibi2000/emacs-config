@@ -125,6 +125,13 @@ Dit zorgt ervoor dat matching haakjes hetzelfde kleur zullen hebben.
 :ensure t
 :bind ("C-x C-f" . 'helm-find-files))
 #+END_SRC
+** helm-rg
+   #+BEGIN_SRC emacs-lisp
+(use-package helm-rg
+:ensure t 
+:bind ("C-x C-S-s" . 'helm-rg)
+)
+   #+END_SRC
 * Magit
 #+BEGIN_SRC emacs-lisp
 (use-package magit
@@ -192,4 +199,11 @@ Dit zorgt ervoor dat matching haakjes hetzelfde kleur zullen hebben.
 :ensure t
 :mode "\\.zig'")
 #+END_SRC
+
+* Emojify
+  #+BEGIN_SRC emacs-lisp
+(use-package emojify
+:ensure t
+:hook (after-init-hook . global-emojify-mode))
+  #+END_SRC
 
