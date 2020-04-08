@@ -4,6 +4,14 @@
 (global-set-key (kbd "M-b") 'compile)
 (global-set-key (kbd "C-!") 'shell-command-on-region)
 #+END_SRC
+* general
+ #+BEGIN_SRC emacs-lisp
+(global-auto-revert-mode) 
+(setq tab-width 8)
+(setq defaul-tab-width 4)
+(defvaralias 'c-basic-offset 'tab-width)
+(defvaralias 'js2-basic-offset 'defaul-tab-width)
+ #+END_SRC
 * Evil-Mode
   #+BEGIN_SRC emacs-lisp  
 (use-package evil
@@ -85,13 +93,6 @@ Dit zorgt ervoor dat matching haakjes hetzelfde kleur zullen hebben.
   :init
     (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 #+END_SRC
-* Tabs
-  #+BEGIN_SRC emacs-lisp
-(setq tab-width 8)
-(setq defaul-tab-width 4)
-(defvaralias 'c-basic-offset 'tab-width)
-(defvaralias 'js2-basic-offset 'defaul-tab-width)
-  #+END_SRC
 * TLS
   #+BEGIN_SRC emacs-lisp
 (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3") 

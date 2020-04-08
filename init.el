@@ -51,7 +51,7 @@
  '(inhibit-startup-screen t)
  '(package-selected-packages
    (quote
-    (helm-rg emojify cargo zig-mode rust-mode ob-rust rainbow-delimiters rjsx-mode pdf-tools highlight-indent-guides rainbow-mode evil company auto-complete auto-compile))))
+    (clang-format helm-rg emojify cargo zig-mode rust-mode ob-rust rainbow-delimiters rjsx-mode pdf-tools highlight-indent-guides rainbow-mode evil company auto-complete auto-compile))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
