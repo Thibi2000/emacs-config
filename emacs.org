@@ -3,14 +3,16 @@
 #+BEGIN_SRC emacs-lisp
 (global-set-key (kbd "M-b") 'compile)
 (global-set-key (kbd "C-!") 'shell-command-on-region)
+(global-set-key (kbd "C-x p") 'pop-global-mark)
 #+END_SRC
 * general
  #+BEGIN_SRC emacs-lisp
 (global-auto-revert-mode) 
-(setq tab-width 8)
-(setq defaul-tab-width 4)
-(defvaralias 'c-basic-offset 'tab-width)
-(defvaralias 'js2-basic-offset 'defaul-tab-width)
+(global-subword-mode 1)
+;;(setq tab-width 8)
+;;(setq defaul-tab-width 4)
+;;(defvaralias 'c-basic-offset 'tab-width)
+;;(defvaralias 'js2-basic-offset 'defaul-tab-width)
  #+END_SRC
 * Evil-Mode
   #+BEGIN_SRC emacs-lisp  
@@ -25,7 +27,8 @@
     ("C-c a" . org-agenda)
     ("C-c c" . org-capture))
   (require 'ox)
-  (require 'cl)
+(with-no-warnings
+   (require 'cl))
 #+END_SRC
 ** org-bullets
   #+BEGIN_SRC emacs-lisp
@@ -37,39 +40,24 @@
 ** org babel
 #+BEGIN_SRC emacs-lisp
   (org-babel-do-load-languages
-   'org-babel-load-languages '((shell .t )
-			       (C . t)))
+   'org-babel-load-languages '((emacs-lisp . t )
+                               (shell . t )
+			       (C . t)
+			       (perl . t))
 #+END_SRC
-* Linum
-  #+BEGIN_SRC emacs-lisp 
-(add-hook 'prog-mode 'linum-mode)
-(use-package linum-relative
-  :load-path "linum-relative-master"
-  :hook ((prog-mode) . linum-relative-mode))
-(column-number-mode)
-  #+END_SRC
+** htmlize
+#+BEGIN_SRC emacs-lisp
+  (use-package htmlize
+    :ensure t)
+#+END_SRC
 * Autopair
   #+BEGIN_SRC emacs-lisp
 (use-package autopair
 :ensure t
+:delight
 :load-path "autopair-master"
 :hook (prog-mode . autopair-mode))
   #+END_SRC
-* Highlight indent
-  #+BEGIN_SRC emacs-lisp
-(use-package highlight-indent-guides
-:ensure t
-:load-path "highlight-indent-guides-master"
-:init (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
-      (setq highlight-indent-guides-method 'column))
-
-  #+END_SRC
-* Dracula Theme
-  #+BEGIN_SRC emacs-lisp
-(add-to-list 'custom-theme-load-path (expand-file-name "~/.emacs.d/themes/"))
-(load-theme 'dracula t)
-  #+END_SRC
-
 * Visuals
   #+BEGIN_SRC emacs-lisp
 (menu-bar-mode -1)
@@ -77,41 +65,55 @@
 (scroll-bar-mode -1)
 (show-paren-mode 1)
   #+END_SRC
+** Linum
+   
+  #+BEGIN_SRC emacs-lisp 
+(add-hook 'prog-mode 'linum-mode)
+(use-package linum-relative
+  :load-path "linum-relative-master"
+  :delight
+  :hook ((prog-mode) . linum-relative-mode))
+(column-number-mode)
+  #+END_SRC
+** dracula theme
+  #+BEGIN_SRC emacs-lisp
+(add-to-list 'custom-theme-load-path (expand-file-name "~/.emacs.d/themes/"))
+(load-theme 'dracula t)
+  #+END_SRC
 ** Rainbow mode
 Dit zal ervoor zorgen dat kleuren zoals #ffffff rood gekleurd zullen zijn.
 #+BEGIN_SRC emacs-lisp
 (use-package rainbow-mode
   :ensure t
-  :init
-    (add-hook 'prog-mode-hook 'rainbow-mode))
+  :delight
+)
 #+END_SRC
 ** Rainbow delimiters
 Dit zorgt ervoor dat matching haakjes hetzelfde kleur zullen hebben.
 #+BEGIN_SRC emacs-lisp
 (use-package rainbow-delimiters
   :ensure t
+  :delight
   :init
     (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 #+END_SRC
+** Font
+#+BEGIN_SRC emacs-lisp
+(set-frame-font "Terminus-16")
+#+END_SRC
+** Highlight indent
+  #+BEGIN_SRC emacs-lisp
+(use-package highlight-indent-guides
+:ensure t
+:delight
+:load-path "highlight-indent-guides-master"
+:init (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+      (setq highlight-indent-guides-method 'column))
+  #+END_SRC
 * TLS
   #+BEGIN_SRC emacs-lisp
 (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3") 
   #+END_SRC
-* Custom code
-** Inbetween parens
-   #+BEGIN_SRC emacs-lisp
-(defun inbetween-parentheses (beg end)
-  (interactive (list (point) (mark)))
-  (kill-region beg end)
-  (insert "\(")
-  (yank)
-  (insert "\)"))
-(global-set-key (kbd "C-x C-p") 'inbetween-parentheses)
-   #+END_SRC
-* Font
-#+BEGIN_SRC emacs-lisp
-(set-frame-font "Terminus-16")
-#+END_SRC
 * pdf-tools
 #+BEGIN_SRC emacs-lisp
 (use-package pdf-tools
@@ -124,13 +126,15 @@ Dit zorgt ervoor dat matching haakjes hetzelfde kleur zullen hebben.
 #+BEGIN_SRC emacs-lisp
 (use-package helm
 :ensure t
-:bind ("C-x C-f" . 'helm-find-files))
+:bind ("C-x C-f" . 'helm-find-files)
+      ("M-x" . 'helm-M-x)
+      ("C-x C-b" . 'helm-buffers-list))
 #+END_SRC
 ** helm-rg
    #+BEGIN_SRC emacs-lisp
 (use-package helm-rg
 :ensure t 
-:bind ("C-x C-S-s" . 'helm-rg)
+:bind ("C-S-s" . 'helm-rg)
 )
    #+END_SRC
 * Magit
@@ -140,43 +144,69 @@ Dit zorgt ervoor dat matching haakjes hetzelfde kleur zullen hebben.
 :bind ("C-x g" . magit-status)
 )
 #+END_SRC
-* Javascript
+* Company
+[[http://company-mode.github.io/][Company]] is a text completion framework for Emacs.
+The name stands for "complete anything".
+It uses pluggable back-ends and front-ends to retrieve and display completion candidates.
+#+BEGIN_SRC emacs-lisp
+    (use-package company
+    :ensure t
+    :delight
+    :hook (prog-mode . company-mode)
+  :bind ("<backtab>" . company-auto-complete))
+#+END_SRC
+
+Completion will start automatically after you type a few letters.
+Use M-n and M-p to select, <return> to complete or <tab> to complete the common part.
+Search through the completions with C-s, C-r and C-o. Press M-(digit) to quickly complete with one of the first 10 candidates.
+Type M-x company-complete to initiate completion manually. Bind this command to a key combination of your choice.
+When the completion candidates are shown, press <f1> to display the documentation for the selected candidate, or C-w to see its source. Not all back-ends support this.
+* Programming Languages 
+** lsp
+#+BEGIN_SRC emacs-lisp
+  (setq lsp-keymap-prefix "s-l")
+  (use-package lsp-mode
+    :ensure t
+    :delight
+    :custom (lsp-prefer-flymake nil) 
+    :config
+    (require 'lsp-clients)
+    (setq company-minimum-prefix-length 2
+	  company-idle-delay 0.0) 
+    ;; increases size of gc
+    (setq gc-cons-threshold 100000000)
+    ;; Increase the amount of data which Emacs reads from the process.
+    (setq read-process-output-max (* 1024 1024))
+    (setq lsp-rust-server 'rust-analyzer)
+    :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
+	   ((c++-mode c-mode rust-mode python-mode
+		      go-mode) . lsp-deferred))
+    :commands (lsp lsp-deferred)
+    :bind (:map lsp-mode-map ("C-c C-f" . lsp-format-buffer)))
+
+  (use-package lsp-ui 
+    :ensure t
+    :delight
+    :commands lsp-ui-mode)
+  ;; if you are helm user
+  (use-package helm-lsp
+    :ensure t
+    :delight
+    :commands helm-lsp-workspace-symbol)
+#+END_SRC
+** Javascript
 #+BEGIN_SRC emacs-lisp
 (use-package rjsx-mode
 :ensure t
 :mode "\\.js\\'")
 #+END_SRC
-* Python
-#+BEGIN_SRC emacs-lisp
-(use-package py-autopep8
-:ensure t
-:hook (python-mode . py-autopep8-enable-on-save))
-#+END_SRC
-* Go
+** Go
 #+BEGIN_SRC emacs-lisp
 (use-package go
 :ensure t
 :mode "\\.go\\'")
 #+END_SRC
-* Dumb jump
-#+BEGIN_SRC emacs-lisp
-  (use-package dumb-jump
-    :ensure t
-    :config (setq dump-jump-force-searcher 'rg)
-    :hook (prog-mode . dumb-jump-mode))
-#+END_SRC
-* Editorconfig
-#+BEGIN_SRC emacs-lisp
-(use-package editorconfig
-    :ensure t
-    :config 
-      (add-hook 'prog-mode-hook (lambda () (editorconfig-mode 1))))
-#+END_SRC
-* SubWord
-#+BEGIN_SRC emacs-lisp
-(global-subword-mode 1)
-#+END_SRC
-* Rust
+** Rust
 #+BEGIN_SRC emacs-lisp
 (use-package rust-mode
 :ensure t
@@ -193,18 +223,53 @@ Dit zorgt ervoor dat matching haakjes hetzelfde kleur zullen hebben.
 :ensure t
 :hook (rust-mode . cargo-minor-mode))
 #+END_SRC  
-
-* Zig
+** Zig
 #+BEGIN_SRC emacs-lisp
 (use-package zig-mode
 :ensure t
 :mode "\\.zig'")
+#+END_SRC
+* Dumb jump
+#+BEGIN_SRC emacs-lisp
+  (use-package dumb-jump
+    :ensure t
+    :config (setq dump-jump-force-searcher 'rg)
+    :hook (prog-mode . dumb-jump-mode))
+#+END_SRC
+* Editorconfig
+#+BEGIN_SRC emacs-lisp
+(use-package editorconfig
+    :ensure t
+    :delight
+)
 #+END_SRC
 
 * Emojify
   #+BEGIN_SRC emacs-lisp
 (use-package emojify
 :ensure t
+:delight
 :hook (after-init-hook . global-emojify-mode))
   #+END_SRC
 
+* flycheck
+#+BEGIN_SRC emacs-lisp
+(use-package flycheck
+:ensure t
+:delight
+:hook (prog-mode . flycheck-mode))
+#+END_SRC
+* yasnippet
+#+BEGIN_SRC emacs-lisp
+  (use-package yasnippet
+    :ensure t
+    :delight
+    :init
+      (yas-global-mode 1))
+  (use-package yasnippet-snippets
+    :ensure t
+    :delight)
+  (use-package yasnippet-classic-snippets
+    :delight
+    :ensure t)
+#+END_SRC
