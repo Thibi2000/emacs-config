@@ -22,20 +22,24 @@
   #+END_SRC
 * Org
 #+BEGIN_SRC emacs-lisp
-  (use-package 
-    org 
+  (use-package org 
     :bind ("C-c l" . org-store-link) 
     ("C-c a" . org-agenda) 
     ("C-c c" . org-capture) 
-    :config (add-to-list 'org-capture-templates
-			 '("d" "Definition" item
-			  (file+headline
-				 (lambda () (buffer-file-name))
-						 "Definitions"))))
+    :config
+    (setq org-capture-templates
+	  '(("D" "Add defintion to current file" item
+	     (file+headline
+	      (lambda () (buffer-file-name))
+	      "Definitions"))
+	    ("t" "Todo item" entry
+	     (file "~/todo.org")
+	     "* TODO  %? \n"))))
   (require 'ox)
   (with-no-warnings 
     (require 'cl))
 #+END_SRC
+
 ** org-bullets
   #+BEGIN_SRC emacs-lisp
   (use-package org-bullets
