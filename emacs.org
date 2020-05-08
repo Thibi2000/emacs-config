@@ -310,3 +310,9 @@ When the completion candidates are shown, press <f1> to display the documentatio
     :delight
     :ensure t)
 #+END_SRC
+* llvm-mode
+#+BEGIN_SRC emacs-lisp
+(use-package llvm-mode
+:load-path "llvm-mode"
+:mode "\\.ll\\'")
+#+END_SRC
