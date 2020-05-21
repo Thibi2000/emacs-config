@@ -39,6 +39,11 @@
 	     (file "~/Downloads/films/todownload.org")
 	     "* TODO %? \n"))))
   (require 'ox)
+  (require 'ox-latex)
+  (setq org-latex-listings t)
+  (add-to-list 'org-latex-packages-alist '("" "listings"))
+  (add-to-list 'org-latex-packages-alist '("" "color"))
+  (add-to-list 'org-latex-packages-alist '("" "fontspec"))
   (with-no-warnings 
     (require 'cl))
 #+END_SRC
@@ -71,6 +76,12 @@ The function wrapper of javascript doesnt work.
 ** htmlize
 #+BEGIN_SRC emacs-lisp
   (use-package htmlize
+    :ensure t)
+#+END_SRC
+** org-ref
+#+BEGIN_SRC emacs-lisp
+  (use-package org-ref
+    :after org
     :ensure t)
 #+END_SRC
 * Autopair
@@ -199,7 +210,7 @@ When the completion candidates are shown, press <f1> to display the documentatio
 * Programming Languages 
 ** lsp
 #+BEGIN_SRC emacs-lisp
-  (setq lsp-keymap-prefix "s-l")
+  (setq lsp-keymap-prefix "C-l")
   (use-package lsp-mode
     :ensure t
     :delight
@@ -216,15 +227,17 @@ When the completion candidates are shown, press <f1> to display the documentatio
 		      go-mode) . lsp-deferred))
     :commands (lsp lsp-deferred)
     :bind (:map lsp-mode-map ("C-c C-f" . lsp-format-buffer))
-    ("C-c j" . lsp-ui-peek-find-definitions))
+    ("C-c j" . lsp-ui-peek-find-definitions)
+    ("C-l C-a" . lsp-execute-code-action))
 
   (use-package lsp-ui 
     :ensure t
     :delight
     :config
-    (setq lsp-ui-doc-alignment 'window)
+    (setq lsp-ui-doc-alignment 'frame)
     (setq lsp-ui-doc-position 'bottom)
-    (setq lsp-ui-doc-max-width 100)
+    (setq lsp-ui-doc-delay 1)
+    (setq lsp-ui-doc-max-width 50)
     :commands lsp-ui-mode)
   ;; if you are helm user
   (use-package helm-lsp
@@ -245,7 +258,7 @@ When the completion candidates are shown, press <f1> to display the documentatio
 #+END_SRC
 ** Go
 #+BEGIN_SRC emacs-lisp
-(use-package go
+(use-package go-mode
 :ensure t
 :mode "\\.go\\'")
 #+END_SRC
