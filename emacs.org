@@ -37,7 +37,10 @@
 	     "* TODO  %? \n")
 	    ("f" "Voeg film toe aan watchlist" entry
 	     (file "~/Downloads/films/todownload.org")
-	     "* TODO %? \n"))))
+	     "* TODO %? \n")
+	    ("d" "Beschrijf een droom" entry
+	     (file "~/org/dromen.org")
+	     "* %?\nGedroomd tijdens de nacht van %u\n%i"))))
   (require 'ox)
   (require 'ox-latex)
   (setq org-latex-listings t)
