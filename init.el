@@ -55,7 +55,7 @@
  '(lsp-prefer-flymake nil t)
  '(lsp-ui-doc-alignment (quote window))
  '(lsp-ui-doc-position (quote bottom))
- '(org-agenda-files (quote ("~/school/planning.org")))
+ '(org-agenda-files (quote ("~/todo.org" "~/school/planning.org")))
  '(org-babel-tangle-comment-format-beg "[[%link][%source-name]]")
  '(org-link-file-path-type (quote adaptive))
  '(package-selected-packages

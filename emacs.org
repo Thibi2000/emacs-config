@@ -230,7 +230,6 @@ When the completion candidates are shown, press <f1> to display the documentatio
 		      go-mode) . lsp-deferred))
     :commands (lsp lsp-deferred)
     :bind (:map lsp-mode-map ("C-c C-f" . lsp-format-buffer))
-    ("C-c j" . lsp-ui-peek-find-definitions)
     ("C-l C-a" . lsp-execute-code-action))
 
   (use-package lsp-ui 
