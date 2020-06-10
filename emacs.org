@@ -83,7 +83,7 @@ I append items to this list using =org-capture=.
 			       (shell . t )
 			       (C . t)
 			       (perl . t)
-			       (. t)
+			       (python . t)
 			       (js . t)))
 #+END_SRC
 
