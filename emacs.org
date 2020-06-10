@@ -38,13 +38,9 @@
 	    ("t" "Todo item" entry
 	     (file "~/todo.org")
 	     "* TODO  %? \n")
-	    ("f" "Te downloaden films toevoegen")
-	    ("fp" "Voeg film(uit clipboard) toe aan watchlist" entry
+	    ("f" "Voeg film(uit clipboard) toe aan watchlist" entry
 	     (file "~/Downloads/films/todownload.org")
-	     "* TODO %(current-kill 0) \n")
-	    ("ft" "Voeg film toe aan watchlist" entry
-	     (file "~/Downloads/films/todownload.org")
-	     "* TODO %? \n")
+	     "* TODO %?%x \n")
 	    ("d" "Beschrijf een droom" entry
 	     (file "~/org/dromen.org")
 	     "* %?\nGedroomd tijdens de nacht van %u\n%i"))))
@@ -58,6 +54,7 @@
     (require 'cl))
 #+END_SRC
 
+*** Sorting org files
 Some files are lists, for example my =todownload.org= file is a list of movies I want to download.
 I append items to this list using =org-capture=.
 
@@ -75,6 +72,7 @@ I append items to this list using =org-capture=.
 			       (cdr (assoc (buffer-file-name)
 						  thibi/org-sorted-files)))))
 #+END_SRC
+
 ** org-bullets
   #+BEGIN_SRC emacs-lisp
   (use-package org-bullets
