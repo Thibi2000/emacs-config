@@ -60,7 +60,8 @@ I append items to this list using =org-capture=.
 =thibi/org-sorted-files= is an associative list mapping the absolute filename on the options of =org-sort-entries=.
 =thibi/org-sort-files= is added as a hook to =org-mode= in the above =use-package= statement.
 #+BEGIN_SRC emacs-lisp
-  (setq thibi/org-sorted-files '(("/home/thibault/Downloads/films/todownload.org" . (t ?a))))
+  (setq thibi/org-sorted-files '(("/home/thibault/Downloads/films/todownload.org"
+				  . (t ?a))))
   (defun thibi/org-sort-files () 
     "Call org-sort-entries on the file of the current buffer if it is in the thibi/org-sorted-files list"
     (message "Calling org-sort-files") 
@@ -307,7 +308,9 @@ When the completion candidates are shown, press <f1> to display the documentatio
 ** Emacs-Lisp formatting
 #+BEGIN_SRC emacs-lisp
 (use-package elisp-format
-:ensure t)
+:ensure t
+:config
+(setq elisp-format-column 80))
 #+END_SRC
 
 * Dumb jump
