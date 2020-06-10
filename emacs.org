@@ -38,7 +38,11 @@
 	    ("t" "Todo item" entry
 	     (file "~/todo.org")
 	     "* TODO  %? \n")
-	    ("f" "Voeg film toe aan watchlist" entry
+	    ("f" "Te downloaden films toevoegen")
+	    ("fp" "Voeg film(uit clipboard) toe aan watchlist" entry
+	     (file "~/Downloads/films/todownload.org")
+	     "* TODO %(current-kill 0) \n")
+	    ("ft" "Voeg film toe aan watchlist" entry
 	     (file "~/Downloads/films/todownload.org")
 	     "* TODO %? \n")
 	    ("d" "Beschrijf een droom" entry
@@ -65,11 +69,11 @@ I append items to this list using =org-capture=.
 
   (defun thibi/org-sort-files () 
     "Call org-sort-entries on the file of the current buffer if it is in the thibi/org-sorted-files list"
-    (if (assoc (buffer-file-name) thibi/org-sorted-files) 
-	(save-excursion (goto-char 0) 
+    (when (assoc (buffer-file-name) thibi/org-sorted-files) 
+	(goto-char 0) 
 			(apply #'org-sort-entries
 			       (cdr (assoc (buffer-file-name)
-						  thibi/org-sorted-files))))))
+						  thibi/org-sorted-files)))))
 #+END_SRC
 ** org-bullets
   #+BEGIN_SRC emacs-lisp
