@@ -61,21 +61,22 @@ I append items to this list using =org-capture=.
 =thibi/org-sorted-files= is an associative list mapping the absolute filename on the options of =org-sort-entries=.
 =thibi/org-sort-files= is added as a hook to =org-mode= in the above =use-package= statement.
 #+BEGIN_SRC emacs-lisp
-  (setq thibi/org-sorted-files
-	'(("/home/thibault/Downloads/films/todownload.org" . (t ?a))))
+    (setq thibi/org-sorted-files
+	  '(("/home/thibault/Downloads/films/todownload.org" . (t ?a))))
 
-  (defun thibi/org-sort-files () 
-    "Call org-sort-entries on the file of the current buffer if it is in the thibi/org-sorted-files list"
-    (let ((saved-ln (line-number-at-pos))
-          (saved-cn (current-column)))
-    (when (assoc (buffer-file-name) thibi/org-sorted-files) 
-	(goto-char (point-min)) 
-	(apply #'org-sort-entries
-	       (cdr (assoc (buffer-file-name)
-			   thibi/org-sorted-files)))
-	(goto-char (point-min))
-	(forward-line (- saved-ln 1))
-	(move-to-column saved-cn))))
+    (defun thibi/org-sort-files () 
+      "Call org-sort-entries on the file of the current buffer if it is in the thibi/org-sorted-files list"
+      (let ((saved-ln (line-number-at-pos))
+	    (saved-cn (current-column))
+	    (sort-args (assoc (buffer-file-name) thibi/org-sorted-files)))
+      (when sort-args 
+	  (goto-char (point-min)) 
+	  (apply #'org-sort-entries
+		 (cdr (assoc (buffer-file-name)
+			     thibi/org-sorted-files)))
+	  (goto-char (point-min))
+	  (forward-line (- saved-ln 1))
+	  (move-to-column saved-cn))))
 #+END_SRC
 
 ** org-bullets
