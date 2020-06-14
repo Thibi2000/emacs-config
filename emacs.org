@@ -72,8 +72,7 @@ I append items to this list using =org-capture=.
       (when sort-args 
 	  (goto-char (point-min)) 
 	  (apply #'org-sort-entries
-		 (cdr (assoc (buffer-file-name)
-			     thibi/org-sorted-files)))
+		 (cdr sort-args))
 	  (goto-char (point-min))
 	  (forward-line (- saved-ln 1))
 	  (move-to-column saved-cn))))
