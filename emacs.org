@@ -43,7 +43,10 @@
 	     "* TODO %?%x \n")
 	    ("d" "Beschrijf een droom" entry
 	     (file "~/org/dromen.org")
-	     "* %?\nGedroomd tijdens de nacht van %u\n%i"))))
+	     "* %?\nGedroomd tijdens de nacht van %u\n%i")
+	    ("w" "Nederlands woord" entry
+	     (file "~/org/woordenschat.org")
+	     "%[~/.emacs.d/capture-templates/woordenschat]"))))
   (require 'ox)
   (require 'ox-latex)
   (setq org-latex-listings t)
@@ -62,7 +65,8 @@ I append items to this list using =org-capture=.
 =thibi/org-sort-files= is added as a hook to =org-mode= in the above =use-package= statement.
 #+BEGIN_SRC emacs-lisp
     (setq thibi/org-sorted-files
-	  '(("/home/thibault/Downloads/films/todownload.org" . (t ?a))))
+	  '(("/home/thibault/Downloads/films/todownload.org" . (t ?a))
+            ("/home/thibault/org/woordenschat.org" . (t ?a))))
 
     (defun thibi/org-sort-files () 
       "Call org-sort-entries on the file of the current buffer if it is in the thibi/org-sorted-files list"
