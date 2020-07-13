@@ -27,6 +27,7 @@
     :bind ("C-c l" . org-store-link) 
     ("C-c a" . org-agenda) 
     ("C-c c" . org-capture) 
+    ("C-c p" . thibi/org-insert-property-drawer) 
     :hook
     (org-mode . (lambda ()
 		  (add-hook 'before-save-hook 'thibi/org-sort-files nil t)))
@@ -48,6 +49,12 @@
 	    ("w" "Nederlands woord" entry
 	     (file "~/org/woordenschat.org")
 	     "%[~/.emacs.d/capture-templates/woordenschat]"))))
+
+  (defun thibi/org-insert-property-drawer ()
+    "Wrapper function for calling `org-insert-property-drawer` interactively"
+    (interactive)
+    (org-insert-property-drawer))
+
   (require 'ox)
   (require 'ox-latex)
   (setq org-latex-listings t)
