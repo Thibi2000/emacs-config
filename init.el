@@ -60,7 +60,7 @@
  '(org-link-file-path-type (quote adaptive))
  '(package-selected-packages
    (quote
-    (plantuml-mode plantuml go-mode org-ref elisp-format htmlize diminisht yasnippet-classic-snippets yasnippet-snippets yasnippet lsp-clients helm-lsp lsp-ui lsp-mode flycheck-clang-tidy flycheck rg clang-format helm-rg emojify cargo zig-mode rust-mode ob-rust rainbow-delimiters rjsx-mode pdf-tools highlight-indent-guides rainbow-mode evil company auto-complete auto-compile)))
+    (olivetti-mode olivetti plantuml-mode plantuml go-mode org-ref elisp-format htmlize diminisht yasnippet-classic-snippets yasnippet-snippets yasnippet lsp-clients helm-lsp lsp-ui lsp-mode flycheck-clang-tidy flycheck rg clang-format helm-rg emojify cargo zig-mode rust-mode ob-rust rainbow-delimiters rjsx-mode pdf-tools highlight-indent-guides rainbow-mode evil company auto-complete auto-compile)))
  '(send-mail-function (quote mailclient-send-it)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
