@@ -416,3 +416,17 @@ When the completion candidates are shown, press <f1> to display the documentatio
   (org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t)))
   :mode "\\.uml\\'")
 #+END_SRC
+* Backup Files
+
+  Emacs slaat een backup van een bestand op wanneer het voor de eerste
+  keer wordt opgeslagen in een buffer, vervolgens maakt Emacs nieuwe
+  backups telkens je het bestand opnieuw opent in een buffer.
+
+  Het is redelijk irritant voor me dat die bestanden terechtkomen in
+  de map zelf, ook al is het om mezelf te beschermen van domme
+  fouten. Daarom sla ik ze liever op in een subdirectory van de
+  huidige directory waarin alle backups terechtkomen.
+
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'backup-directory-alist '("." . ".~"))
+#+END_SRC
