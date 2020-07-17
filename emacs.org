@@ -33,6 +33,8 @@
     (org-mode . (lambda ()
 		  (add-hook 'before-save-hook 'thibi/org-sort-files nil t)))
     :config
+    (setq org-agenda-skip-scheduled-if-done 't)
+    (setq org-agenda-skip-deadline-if-done 't)
     (setq org-capture-templates
 	  '(("D" "Add defintion to current file" item
 	     (file+headline
@@ -66,13 +68,22 @@
     (require 'cl))
 #+END_SRC
 
-*** Sorting org files
-Some files are lists, for example my =todownload.org= file is a list of movies I want to download.
-I append items to this list using =org-capture=.
+*** Custom faces
+    =org-todo-keyword-faces= laat je toe om de kleuren van Org
+    keywords aan te passen.
 
-=thibi/org-sorted-files= is an associative list mapping the absolute filename on the options of =org-sort-entries=.
-=thibi/org-sort-files= is added as a hook to =org-mode= in the above =use-package= statement.
-#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
+(setq org-todo-keyword-faces
+	   '(("DOWNLOADED" . "#8be9fd")))
+    #+END_SRC
+    
+*** Sorting org files
+    Some files are lists, for example my =todownload.org= file is a list of movies I want to download.
+    I append items to this list using =org-capture=.
+
+    =thibi/org-sorted-files= is an associative list mapping the absolute filename on the options of =org-sort-entries=.
+    =thibi/org-sort-files= is added as a hook to =org-mode= in the above =use-package= statement.
+    #+BEGIN_SRC emacs-lisp
     (setq thibi/org-sorted-files
 	  '(("/home/thibault/org/woordenschat.org" . (t ?a))))
 
@@ -88,17 +99,17 @@ I append items to this list using =org-capture=.
 	  (goto-char (point-min))
 	  (forward-line (- saved-ln 1))
 	  (move-to-column saved-cn))))
-#+END_SRC
+    #+END_SRC
 
 ** org-bullets
-  #+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
   (use-package org-bullets
     :ensure t
     :config
       (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
-  #+END_SRC
+   #+END_SRC
 ** org babel
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
   (org-babel-do-load-languages
    'org-babel-load-languages '((emacs-lisp . t )
 			       (shell . t )
@@ -106,25 +117,25 @@ I append items to this list using =org-capture=.
 			       (perl . t)
 			       (python . t)
 			       (js . t)))
-#+END_SRC
+   #+END_SRC
 
 *** Javascript
 
-The function wrapper of javascript doesnt work.
-#+BEGIN_SRC emacs-lisp 
+    The function wrapper of javascript doesnt work.
+    #+BEGIN_SRC emacs-lisp 
   (setq org-babel-js-function-wrapper "%s")
-#+END_SRC
+    #+END_SRC
 ** htmlize
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
   (use-package htmlize
     :ensure t)
-#+END_SRC
+   #+END_SRC
 ** org-ref
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
   (use-package org-ref
     :after org
     :ensure t)
-#+END_SRC
+   #+END_SRC
 * Autopair
   #+BEGIN_SRC emacs-lisp
 (use-package autopair
@@ -142,48 +153,48 @@ The function wrapper of javascript doesnt work.
   #+END_SRC
 ** Linum
    
-  #+BEGIN_SRC emacs-lisp 
+   #+BEGIN_SRC emacs-lisp 
 (add-hook 'prog-mode 'linum-mode)
 (use-package linum-relative
   :load-path "linum-relative-master"
   :delight
   :hook ((prog-mode) . linum-relative-mode))
 (column-number-mode)
-  #+END_SRC
+   #+END_SRC
 ** dracula theme
-  #+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
 (add-to-list 'custom-theme-load-path (expand-file-name "~/.emacs.d/themes/"))
 (load-theme 'dracula t)
-  #+END_SRC
+   #+END_SRC
 ** Rainbow mode
-Dit zal ervoor zorgen dat kleuren zoals #ffffff rood gekleurd zullen zijn.
-#+BEGIN_SRC emacs-lisp
+   Dit zal ervoor zorgen dat kleuren zoals #ffffff rood gekleurd zullen zijn.
+   #+BEGIN_SRC emacs-lisp
 (use-package rainbow-mode
   :ensure t
   :delight
 )
-#+END_SRC
+   #+END_SRC
 ** Rainbow delimiters
-Dit zorgt ervoor dat matching haakjes hetzelfde kleur zullen hebben.
-#+BEGIN_SRC emacs-lisp
+   Dit zorgt ervoor dat matching haakjes hetzelfde kleur zullen hebben.
+   #+BEGIN_SRC emacs-lisp
 (use-package rainbow-delimiters
   :ensure t
   :delight
   :init
     (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
-#+END_SRC
+   #+END_SRC
 ** Font
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
 (set-frame-font "Terminus-16" nil t)
-#+END_SRC
+   #+END_SRC
 
 ** Autofill 
 
    Dit zorgt ervoor dat lijnen vanzelf ingekort worden waardoor ik zelf niet op enter moet drukken.
-  #+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
     (add-hook 'prog-mode-hook 'auto-fill-mode)
-    (set-fill-column 100)
-  #+END_SRC 
+    (set-fill-column 85)
+   #+END_SRC 
 
 ** Olivetti
 
@@ -194,38 +205,38 @@ Dit zorgt ervoor dat matching haakjes hetzelfde kleur zullen hebben.
        :ensure t
        :bind ("C-c o" . 'olivetti-mode)
        :config
-       (olivetti-set-width 100))
+       (olivetti-set-width 85))
    #+END_SRC
 
 ** Highlight indent
-  #+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
 (use-package highlight-indent-guides
 :ensure t
 :delight
 :load-path "highlight-indent-guides-master"
 :init (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
       (setq highlight-indent-guides-method 'column))
-  #+END_SRC
+   #+END_SRC
 * TLS
   #+BEGIN_SRC emacs-lisp
 (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3") 
   #+END_SRC
 * pdf-tools
-#+BEGIN_SRC emacs-lisp
+  #+BEGIN_SRC emacs-lisp
 (use-package pdf-tools
   :ensure t
   :magic ("%PDF" . pdf-view-mode)
   :config
   (pdf-tools-install :no-query))
-#+END_SRC
+  #+END_SRC
 * Helm
-#+BEGIN_SRC emacs-lisp
+  #+BEGIN_SRC emacs-lisp
   (use-package helm
   :ensure t
   :bind ("C-x C-f" . 'helm-find-files)
 	("M-x" . 'helm-M-x)
 	("C-x C-b" . 'helm-buffers-list))
-#+END_SRC
+  #+END_SRC
 ** helm-rg
    #+BEGIN_SRC emacs-lisp
 (use-package helm-rg
@@ -234,17 +245,17 @@ Dit zorgt ervoor dat matching haakjes hetzelfde kleur zullen hebben.
 )
    #+END_SRC
 * Magit
-#+BEGIN_SRC emacs-lisp
+  #+BEGIN_SRC emacs-lisp
 (use-package magit
 :ensure t
 :bind ("C-x g" . magit-status)
 )
-#+END_SRC
+  #+END_SRC
 * Company
-[[http://company-mode.github.io/][Company]] is a text completion framework for Emacs.
-The name stands for "complete anything".
-It uses pluggable back-ends and front-ends to retrieve and display completion candidates.
-#+BEGIN_SRC emacs-lisp
+  [[http://company-mode.github.io/][Company]] is a text completion framework for Emacs.
+  The name stands for "complete anything".
+  It uses pluggable back-ends and front-ends to retrieve and display completion candidates.
+  #+BEGIN_SRC emacs-lisp
     (use-package company
       :ensure t
       :delight
@@ -253,23 +264,23 @@ It uses pluggable back-ends and front-ends to retrieve and display completion ca
       :config 
       (setq company-minimum-prefix-length 2
 	    company-idle-delay 0.0))
-#+END_SRC
+  #+END_SRC
 
-Completion will start automatically after you type a few letters.
-The keybinds are initially mapped to =M-n= and =M-p= to navigate the completions.
-The following block will remap it to =C-n= and =C-p=.
-#+BEGIN_SRC emacs-lisp
+  Completion will start automatically after you type a few letters.
+  The keybinds are initially mapped to =M-n= and =M-p= to navigate the completions.
+  The following block will remap it to =C-n= and =C-p=.
+  #+BEGIN_SRC emacs-lisp
   (with-eval-after-load 'company
     (define-key company-active-map (kbd "M-n") nil)
     (define-key company-active-map (kbd "M-p") nil)
     (define-key company-active-map (kbd "C-n") #'company-select-next)
     (define-key company-active-map (kbd "C-p") #'company-select-previous))
-#+END_SRC
-Search through the completions with C-s, C-r and C-o. Press M-(digit) to quickly complete with one of the first 10 candidates.
-When the completion candidates are shown, press <f1> to display the documentation for the selected candidate, or C-w to see its source. Not all back-ends support this.
+  #+END_SRC
+  Search through the completions with C-s, C-r and C-o. Press M-(digit) to quickly complete with one of the first 10 candidates.
+  When the completion candidates are shown, press <f1> to display the documentation for the selected candidate, or C-w to see its source. Not all back-ends support this.
 * Programming Languages 
 ** lsp
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
   (setq lsp-keymap-prefix "C-l")
   (use-package lsp-mode
     :ensure t
@@ -303,69 +314,69 @@ When the completion candidates are shown, press <f1> to display the documentatio
     :ensure t
     :delight
     :commands helm-lsp-workspace-symbol)
-#+END_SRC
+   #+END_SRC
 
-#+RESULTS:
+   #+RESULTS:
 
 
 
 ** Javascript
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
 (use-package rjsx-mode
 :ensure t
 :mode "\\.js\\'")
-#+END_SRC
+   #+END_SRC
 ** Go
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
 (use-package go-mode
 :ensure t
 :mode "\\.go\\'")
-#+END_SRC
+   #+END_SRC
 ** Rust
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
 (use-package rust-mode
 :ensure t
 :mode "\\.rs\\'")
-#+END_SRC
+   #+END_SRC
 
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
 (use-package ob-rust
 :ensure t)
-#+END_SRC
+   #+END_SRC
 
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
 (use-package cargo
 :ensure t
 :hook (rust-mode . cargo-minor-mode))
-#+END_SRC  
+   #+END_SRC  
 ** Zig
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
 (use-package zig-mode
 :ensure t
 :mode "\\.zig'")
-#+END_SRC
+   #+END_SRC
 ** Emacs-Lisp formatting
-#+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
 (use-package elisp-format
 :ensure t
 :config
-(setq elisp-format-column 80))
-#+END_SRC
+(setq elisp-format-column 85))
+   #+END_SRC
 
 * Dumb jump
-#+BEGIN_SRC emacs-lisp
+  #+BEGIN_SRC emacs-lisp
   (use-package dumb-jump
     :ensure t
     :config (setq dump-jump-force-searcher 'rg)
     :hook (prog-mode . dumb-jump-mode))
-#+END_SRC
+  #+END_SRC
 * Editorconfig
-#+BEGIN_SRC emacs-lisp
+  #+BEGIN_SRC emacs-lisp
 (use-package editorconfig
     :ensure t
     :delight
 )
-#+END_SRC
+  #+END_SRC
 
 * Emojify
   #+BEGIN_SRC emacs-lisp
@@ -376,14 +387,14 @@ When the completion candidates are shown, press <f1> to display the documentatio
   #+END_SRC
 
 * flycheck
-#+BEGIN_SRC emacs-lisp
+  #+BEGIN_SRC emacs-lisp
 (use-package flycheck
 :ensure t
 :delight
 :hook (prog-mode . flycheck-mode))
-#+END_SRC
+  #+END_SRC
 * yasnippet
-#+BEGIN_SRC emacs-lisp
+  #+BEGIN_SRC emacs-lisp
   (use-package yasnippet
     :ensure t
     :delight
@@ -395,16 +406,16 @@ When the completion candidates are shown, press <f1> to display the documentatio
   (use-package yasnippet-classic-snippets
     :delight
     :ensure t)
-#+END_SRC
+  #+END_SRC
 * llvm-mode
-#+BEGIN_SRC emacs-lisp
+  #+BEGIN_SRC emacs-lisp
 (use-package llvm-mode
 :load-path "llvm-mode"
 :mode "\\.ll\\'")
-#+END_SRC
+  #+END_SRC
 * Plant uml
 
-#+BEGIN_SRC emacs-lisp
+  #+BEGIN_SRC emacs-lisp
   (use-package plantuml-mode
   :ensure t
   :config
@@ -414,7 +425,7 @@ When the completion candidates are shown, press <f1> to display the documentatio
   (add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
   (org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t)))
   :mode "\\.uml\\'")
-#+END_SRC
+  #+END_SRC
 * Backup Files
 
   Emacs slaat een backup van een bestand op wanneer het voor de eerste
@@ -426,6 +437,6 @@ When the completion candidates are shown, press <f1> to display the documentatio
   fouten. Daarom sla ik ze liever op in een subdirectory van de
   huidige directory waarin alle backups terechtkomen.
 
-#+BEGIN_SRC emacs-lisp
+  #+BEGIN_SRC emacs-lisp
   (add-to-list 'backup-directory-alist '("." . ".~"))
-#+END_SRC
+  #+END_SRC
