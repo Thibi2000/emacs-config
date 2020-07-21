@@ -24,58 +24,72 @@
 * Org
 
   #+BEGIN_SRC emacs-lisp
-  (use-package org 
-    :bind ("C-c l" . org-store-link) 
-    ("C-c a" . org-agenda) 
-    ("C-c c" . org-capture) 
-    ("C-c p" . thibi/org-insert-property-drawer) 
-    :hook (org-mode . auto-fill-mode) 
-    (org-mode . (lambda () 
-		  (add-hook 'before-save-hook 'thibi/org-sort-files nil t))) 
-    :config
-    (defun thibi/org-insert-property-drawer () 
-      "Wrapper function for calling `org-insert-property-drawer`
-  interactively"
-      (interactive) 
-      (org-insert-property-drawer)) 
-    (setq org-preview-latex-default-process 'imagemagick)
-    (setq org-preview-latex-process-alist
-	  '((imagemagick :programs ("lualatex" "convert") 
-			 :description "pdf > png"
-			 :message "you need to install the
-			 programs: lualatex and imagemagick."
-			 :use-xcolor t 
-			 :image-input-type "pdf" 
-			 :image-output-type
-			 "png" 
-			 :image-size-adjust (1.0 . 1.0) 
-			 :latex-compiler ("lualatex -interaction
-			 nonstopmode -output-directory %o %f")
-			 :image-converter
-			 ("convert -density %D -trim -antialias %f -quality 100 %O")))) 
-    (setq org-agenda-skip-scheduled-if-done 't) 
-    (setq org-agenda-skip-deadline-if-done 't) 
-    (setq org-capture-templates
-	  '(("D" "Add defintion to current file"
-	     item (file+headline (lambda () 
-				   (buffer-file-name)) "Definitions")) 
-	    ("t" "Todo item" entry (file "~/todo.org") "* TODO %? \n") 
-	    ("f" "Voeg film toe aan watchlist" entry (file "~/org/watchlist.org")
-	     "* TODOWNLOAD %? \n:PROPERTIES:\n:ADDED: %u\n:END:") 
-	    ("d" "Beschrijf een droom" entry (file "~/org/dromen.org")
-	     "* %?\nGedroomd tijdens de nacht van %u\n%i") 
-	    ("w" "Nederlands woord" entry (file "~/org/woordenschat.org")
-	     "%[~/.emacs.d/capture-templates/woordenschat]"))))
+      (use-package org 
+	:bind ("C-c l" . org-store-link) 
+	("C-c a" . org-agenda) 
+	("C-c c" . org-capture) 
+	("C-c p" . thibi/org-insert-property-drawer) 
+	:hook (org-mode . auto-fill-mode) 
+	(org-mode . (lambda () 
+		      (add-hook 'before-save-hook 'thibi/org-sort-files nil t))) 
+	:config
+	(require 'ox)
+	(require 'ox-latex)
+	(setq org-latex-listings t)
+	(add-to-list 'org-latex-packages-alist '("" "listings"))
+	(add-to-list 'org-latex-packages-alist '("" "color"))
+	(add-to-list 'org-latex-packages-alist '("" "fontspec"))
+	(with-no-warnings 
+	  (require 'cl))
+
+	(org-babel-do-load-languages
+	 'org-babel-load-languages '((emacs-lisp . t )
+				     (shell . t )
+				     (C . t)
+				     (perl . t)
+				     (python . t)
+				     (js . t)
+				     (plantuml . t)))
+	(setq org-babel-js-function-wrapper "%s")
+	(defun thibi/org-insert-property-drawer () 
+	  "Wrapper function for calling `org-insert-property-drawer`
+      interactively"
+	  (interactive) 
+	  (org-insert-property-drawer)) 
+	  ;; Settings for converting Latex Math Snippets into images
+	(setq org-preview-latex-default-process 'imagemagick)
+	(setq org-preview-latex-process-alist
+	      '((imagemagick :programs ("lualatex" "convert") 
+			     :description "pdf > png"
+			     :message "you need to install the
+			     programs: lualatex and imagemagick."
+			     :use-xcolor t 
+			     :image-input-type "pdf" 
+			     :image-output-type
+			     "png" 
+			     :image-size-adjust (1.0 . 1.0) 
+			     :latex-compiler ("lualatex -interaction
+			     nonstopmode -output-directory %o %f")
+			     :image-converter
+			     ("convert -density %D -trim -antialias %f -quality 100 %O")))) 
+	;; Avoid Done Items in agenda view
+	(setq org-agenda-skip-scheduled-if-done 't) 
+	(setq org-agenda-skip-deadline-if-done 't) 
+	(setq org-capture-templates
+	      '(("D" "Add defintion to current file"
+		 item (file+headline (lambda () 
+				       (buffer-file-name)) "Definitions")) 
+		("t" "Todo item" entry (file "~/todo.org") "* TODO %? \n") 
+		("f" "Voeg film toe aan watchlist" entry (file "~/org/watchlist.org")
+		 "* TODOWNLOAD %? \n:PROPERTIES:\n:ADDED: %u\n:END:") 
+		("d" "Beschrijf een droom" entry (file "~/org/dromen.org")
+		 "* %?\nGedroomd tijdens de nacht van %u\n%i") 
+		("w" "Nederlands woord" entry (file "~/org/woordenschat.org")
+		 "%[~/.emacs.d/capture-templates/woordenschat]")))
+	(setq org-plantuml-jar-path (symbol-value 'plantuml-jar-path))
+	(add-to-list 'org-src-lang-modes '("plantuml" . plantuml)))
 
 
-  (require 'ox)
-  (require 'ox-latex)
-  (setq org-latex-listings t)
-  (add-to-list 'org-latex-packages-alist '("" "listings"))
-  (add-to-list 'org-latex-packages-alist '("" "color"))
-  (add-to-list 'org-latex-packages-alist '("" "fontspec"))
-  (with-no-warnings 
-    (require 'cl))
 #+END_SRC
 
 *** Custom faces
@@ -118,23 +132,6 @@
     :config
       (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
    #+END_SRC
-** org babel
-   #+BEGIN_SRC emacs-lisp
-  (org-babel-do-load-languages
-   'org-babel-load-languages '((emacs-lisp . t )
-			       (shell . t )
-			       (C . t)
-			       (perl . t)
-			       (python . t)
-			       (js . t)))
-   #+END_SRC
-
-*** Javascript
-
-    The function wrapper of javascript doesnt work.
-    #+BEGIN_SRC emacs-lisp 
-  (setq org-babel-js-function-wrapper "%s")
-    #+END_SRC
 ** htmlize
    #+BEGIN_SRC emacs-lisp
   (use-package htmlize
@@ -251,15 +248,13 @@
    #+BEGIN_SRC emacs-lisp
 (use-package helm-rg
 :ensure t 
-:bind ("C-S-s" . 'helm-rg)
-)
+:bind ("C-S-s" . 'helm-rg))
    #+END_SRC
 * Magit
   #+BEGIN_SRC emacs-lisp
 (use-package magit
 :ensure t
-:bind ("C-x g" . magit-status)
-)
+:bind ("C-x g" . magit-status))
   #+END_SRC
 * Company
   [[http://company-mode.github.io/][Company]] is a text completion framework for Emacs.
@@ -329,7 +324,6 @@
    #+RESULTS:
 
 
-
 ** Javascript
    #+BEGIN_SRC emacs-lisp
 (use-package rjsx-mode
@@ -384,8 +378,7 @@
   #+BEGIN_SRC emacs-lisp
 (use-package editorconfig
     :ensure t
-    :delight
-)
+    :delight)
   #+END_SRC
 
 * Emojify
@@ -431,9 +424,6 @@
   :config
   (setq plantuml-default-exec-mode 'jar)
   (setq plantuml-jar-path (expand-file-name "/home/thibault/.local/bin/plantuml.jar"))
-  (setq org-plantuml-jar-path (expand-file-name "/home/thibault/.local/bin/plantuml.jar"))
-  (add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
-  (org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t)))
   :mode "\\.uml\\'")
   #+END_SRC
 * Backup Files
