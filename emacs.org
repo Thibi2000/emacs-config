@@ -19,75 +19,77 @@
 (use-package evil
 :ensure t
 :config (evil-mode 1)
-(define-key evil-motion-state-map "K" 'helm-man-woman))
+(with-eval-after-load 'helm
+    (define-key evil-motion-state-map "K" 'helm-man-woman)))
   #+END_SRC
 * Org
 
   #+BEGIN_SRC emacs-lisp
-      (use-package org 
-	:bind ("C-c l" . org-store-link) 
-	("C-c a" . org-agenda) 
-	("C-c c" . org-capture) 
-	("C-c p" . thibi/org-insert-property-drawer) 
-	:hook (org-mode . auto-fill-mode) 
-	(org-mode . (lambda () 
-		      (add-hook 'before-save-hook 'thibi/org-sort-files nil t))) 
-	:config
-	(require 'ox)
-	(require 'ox-latex)
-	(setq org-latex-listings t)
-	(add-to-list 'org-latex-packages-alist '("" "listings"))
-	(add-to-list 'org-latex-packages-alist '("" "color"))
-	(add-to-list 'org-latex-packages-alist '("" "fontspec"))
-	(with-no-warnings 
-	  (require 'cl))
+    (use-package org 
+      :bind ("C-c l" . org-store-link) 
+      ("C-c a" . org-agenda) 
+      ("C-c c" . org-capture) 
+      ("C-c p" . thibi/org-insert-property-drawer) 
+      :hook (org-mode . auto-fill-mode) 
+      (org-mode . (lambda () 
+		    (add-hook 'before-save-hook 'thibi/org-sort-files nil t))) 
+      :config
+      (require 'ox)
+      (require 'ox-latex)
+      (setq org-latex-listings t)
+      (add-to-list 'org-latex-packages-alist '("" "listings"))
+      (add-to-list 'org-latex-packages-alist '("" "color"))
+      (add-to-list 'org-latex-packages-alist '("" "fontspec"))
+      (with-no-warnings 
+	(require 'cl))
 
-	(org-babel-do-load-languages
-	 'org-babel-load-languages '((emacs-lisp . t )
-				     (shell . t )
-				     (C . t)
-				     (perl . t)
-				     (python . t)
-				     (js . t)
-				     (plantuml . t)))
-	(setq org-babel-js-function-wrapper "%s")
-	(defun thibi/org-insert-property-drawer () 
-	  "Wrapper function for calling `org-insert-property-drawer`
-      interactively"
-	  (interactive) 
-	  (org-insert-property-drawer)) 
-	  ;; Settings for converting Latex Math Snippets into images
-	(setq org-preview-latex-default-process 'imagemagick)
-	(setq org-preview-latex-process-alist
-	      '((imagemagick :programs ("lualatex" "convert") 
-			     :description "pdf > png"
-			     :message "you need to install the
-			     programs: lualatex and imagemagick."
-			     :use-xcolor t 
-			     :image-input-type "pdf" 
-			     :image-output-type
-			     "png" 
-			     :image-size-adjust (1.0 . 1.0) 
-			     :latex-compiler ("lualatex -interaction
-			     nonstopmode -output-directory %o %f")
-			     :image-converter
-			     ("convert -density %D -trim -antialias %f -quality 100 %O")))) 
-	;; Avoid Done Items in agenda view
-	(setq org-agenda-skip-scheduled-if-done 't) 
-	(setq org-agenda-skip-deadline-if-done 't) 
-	(setq org-capture-templates
-	      '(("D" "Add defintion to current file"
-		 item (file+headline (lambda () 
-				       (buffer-file-name)) "Definitions")) 
-		("t" "Todo item" entry (file "~/todo.org") "* TODO %? \n") 
-		("f" "Voeg film toe aan watchlist" entry (file "~/org/watchlist.org")
-		 "* TODOWNLOAD %? \n:PROPERTIES:\n:ADDED: %u\n:END:") 
-		("d" "Beschrijf een droom" entry (file "~/org/dromen.org")
-		 "* %?\nGedroomd tijdens de nacht van %u\n%i") 
-		("w" "Nederlands woord" entry (file "~/org/woordenschat.org")
-		 "%[~/.emacs.d/capture-templates/woordenschat]")))
+      (org-babel-do-load-languages
+       'org-babel-load-languages '((emacs-lisp . t )
+				   (shell . t )
+				   (C . t)
+				   (perl . t)
+				   (python . t)
+				   (js . t)
+				   (plantuml . t)))
+      (setq org-babel-js-function-wrapper "%s")
+      (defun thibi/org-insert-property-drawer () 
+	"Wrapper function for calling `org-insert-property-drawer`
+    interactively"
+	(interactive) 
+	(org-insert-property-drawer)) 
+	;; Settings for converting Latex Math Snippets into images
+      (setq org-preview-latex-default-process 'imagemagick)
+      (setq org-preview-latex-process-alist
+	    '((imagemagick :programs ("lualatex" "convert") 
+			   :description "pdf > png"
+			   :message "you need to install the
+			   programs: lualatex and imagemagick."
+			   :use-xcolor t 
+			   :image-input-type "pdf" 
+			   :image-output-type
+			   "png" 
+			   :image-size-adjust (1.0 . 1.0) 
+			   :latex-compiler ("lualatex -interaction
+			   nonstopmode -output-directory %o %f")
+			   :image-converter
+			   ("convert -density %D -trim -antialias %f -quality 100 %O")))) 
+      ;; Avoid Done Items in agenda view
+      (setq org-agenda-skip-scheduled-if-done 't) 
+      (setq org-agenda-skip-deadline-if-done 't) 
+      (setq org-capture-templates
+	    '(("D" "Add defintion to current file"
+	       item (file+headline (lambda () 
+				     (buffer-file-name)) "Definitions")) 
+	      ("t" "Todo item" entry (file "~/todo.org") "* TODO %? \n") 
+	      ("f" "Voeg film toe aan watchlist" entry (file "~/org/watchlist.org")
+	       "* TODOWNLOAD %? \n:PROPERTIES:\n:ADDED: %u\n:END:") 
+	      ("d" "Beschrijf een droom" entry (file "~/org/dromen.org")
+	       "* %?\nGedroomd tijdens de nacht van %u\n%i") 
+	      ("w" "Nederlands woord" entry (file "~/org/woordenschat.org")
+	       "%[~/.emacs.d/capture-templates/woordenschat]")))
+      (with-eval-after-load 'plantuml-mode
 	(setq org-plantuml-jar-path (symbol-value 'plantuml-jar-path))
-	(add-to-list 'org-src-lang-modes '("plantuml" . plantuml)))
+	(add-to-list 'org-src-lang-modes '("plantuml" . plantuml))))
 
 
 #+END_SRC
