@@ -58,6 +58,7 @@
 	(interactive) 
 	(org-insert-property-drawer)) 
 	;; Settings for converting Latex Math Snippets into images
+      (setq org-latex-compiler "lualatex")
       (setq org-preview-latex-default-process 'imagemagick)
       (setq org-preview-latex-process-alist
 	    '((imagemagick :programs ("lualatex" "convert") 
@@ -69,8 +70,8 @@
 			   :image-output-type
 			   "png" 
 			   :image-size-adjust (1.0 . 1.0) 
-			   :latex-compiler ("lualatex -interaction
-			   nonstopmode -output-directory %o %f")
+			   :latex-compiler
+			   ("lualatex -interaction nonstopmode -output-directory %o %f")
 			   :image-converter
 			   ("convert -density %D -trim -antialias %f -quality 100 %O")))) 
       ;; Avoid Done Items in agenda view
