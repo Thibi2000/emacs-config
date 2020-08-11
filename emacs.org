@@ -36,6 +36,7 @@
       :config
       (require 'ox)
       (require 'ox-latex)
+      (require 'org-tempo) ;; <KEY <TAB> functionality
       (setq org-latex-listings t)
       (add-to-list 'org-latex-packages-alist '("" "listings"))
       (add-to-list 'org-latex-packages-alist '("" "color"))
