@@ -36,7 +36,6 @@
       :config
       (require 'ox)
       (require 'ox-latex)
-      (require 'org-tempo) ;; <KEY <TAB> functionality
       (setq org-latex-listings t)
       (add-to-list 'org-latex-packages-alist '("" "listings"))
       (add-to-list 'org-latex-packages-alist '("" "color"))
@@ -89,6 +88,7 @@
 	       "* %?\nGedroomd tijdens de nacht van %u\n%i") 
 	      ("w" "Nederlands woord" entry (file "~/org/woordenschat.org")
 	       "%[~/.emacs.d/capture-templates/woordenschat]")))
+      (setq org-indirect-buffer-display 'current-window)
       (with-eval-after-load 'plantuml-mode
 	(setq org-plantuml-jar-path (symbol-value 'plantuml-jar-path))
 	(add-to-list 'org-src-lang-modes '("plantuml" . plantuml))))
@@ -143,9 +143,9 @@
    #+END_SRC
 ** org-ref
    #+BEGIN_SRC emacs-lisp
-  (use-package org-ref
-    :after org
-    :ensure t)
+  ;(use-package org-ref
+    ;:after org
+    ;:ensure t)
    #+END_SRC
 * Autopair
   #+BEGIN_SRC emacs-lisp
@@ -450,3 +450,9 @@
 (use-package vterm
   :ensure t)
 #+END_SRC
+* Docker
+#+begin_src emacs-lisp
+(use-package dockerfile-mode
+:ensure t)
+#+end_src
+* TODO SqlMode
