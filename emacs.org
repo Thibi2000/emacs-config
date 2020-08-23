@@ -30,6 +30,7 @@
       ("C-c a" . org-agenda) 
       ("C-c c" . org-capture) 
       ("C-c p" . thibi/org-insert-property-drawer) 
+      ("C-c C-x C-r" . org-clock-report) 
       :hook (org-mode . auto-fill-mode) 
       (org-mode . (lambda () 
 		    (add-hook 'before-save-hook 'thibi/org-sort-files nil t))) 
