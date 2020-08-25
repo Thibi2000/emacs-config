@@ -35,14 +35,13 @@
       (org-mode . (lambda () 
 		    (add-hook 'before-save-hook 'thibi/org-sort-files nil t))) 
       :config
+      (require 'org-tempo)
       (require 'ox)
       (require 'ox-latex)
       (setq org-latex-listings t)
       (add-to-list 'org-latex-packages-alist '("" "listings"))
       (add-to-list 'org-latex-packages-alist '("" "color"))
       (add-to-list 'org-latex-packages-alist '("" "fontspec"))
-      (with-no-warnings 
-	(require 'cl))
 
       (org-babel-do-load-languages
        'org-babel-load-languages '((emacs-lisp . t )
