@@ -48,20 +48,21 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   (quote
-    ("e4af99977fc5c572c8b82c19fce7afc622c6e8343bbb75230563c12dac7de4a8" default)))
- '(emojify-emoji-styles (quote (github unicode)))
+   '("e4af99977fc5c572c8b82c19fce7afc622c6e8343bbb75230563c12dac7de4a8" default))
+ '(emojify-emoji-styles '(github unicode))
+ '(gdb-many-windows t)
  '(inhibit-startup-screen t)
+ '(lsp-clients-clangd-args '("--clang-tidy"))
  '(lsp-prefer-flymake nil t)
- '(lsp-ui-doc-alignment (quote window))
- '(lsp-ui-doc-position (quote bottom))
- '(org-agenda-files (quote ("~/todo.org" "~/school/planning.org")))
+ '(lsp-ui-doc-alignment 'window)
+ '(lsp-ui-doc-position 'bottom)
+ '(org-agenda-files '("~/todo.org" "~/school/planning.org"))
  '(org-babel-tangle-comment-format-beg "[[%link][%source-name]]")
- '(org-link-file-path-type (quote adaptive))
+ '(org-link-file-path-type 'adaptive)
  '(package-selected-packages
-   (quote
-    (dockerfile-mode dockerfile org-bibtex vterm olivetti-mode plantuml-mode go-mode org-ref elisp-format htmlize diminisht yasnippet-classic-snippets yasnippet-snippets yasnippet lsp-clients helm-lsp lsp-ui lsp-mode flycheck-clang-tidy flycheck rg clang-format helm-rg emojify cargo zig-mode rust-mode ob-rust rainbow-delimiters rjsx-mode pdf-tools highlight-indent-guides rainbow-mode evil company auto-complete auto-compile)))
- '(send-mail-function (quote mailclient-send-it)))
+   '(delight diminish projectile fireplace dockerfile-mode dockerfile org-bibtex vterm olivetti-mode plantuml-mode go-mode org-ref elisp-format htmlize diminisht yasnippet-classic-snippets yasnippet-snippets yasnippet lsp-clients helm-lsp lsp-ui lsp-mode flycheck-clang-tidy flycheck rg clang-format helm-rg emojify cargo zig-mode rust-mode ob-rust rainbow-delimiters rjsx-mode pdf-tools highlight-indent-guides rainbow-mode evil company auto-complete auto-compile))
+ '(projectile-mode t nil (projectile))
+ '(send-mail-function 'mailclient-send-it))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
