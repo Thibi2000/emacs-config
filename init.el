@@ -60,7 +60,7 @@
  '(org-babel-tangle-comment-format-beg "[[%link][%source-name]]")
  '(org-link-file-path-type 'adaptive)
  '(package-selected-packages
-   '(delight diminish projectile fireplace dockerfile-mode dockerfile org-bibtex vterm olivetti-mode plantuml-mode go-mode org-ref elisp-format htmlize diminisht yasnippet-classic-snippets yasnippet-snippets yasnippet lsp-clients helm-lsp lsp-ui lsp-mode flycheck-clang-tidy flycheck rg clang-format helm-rg emojify cargo zig-mode rust-mode ob-rust rainbow-delimiters rjsx-mode pdf-tools highlight-indent-guides rainbow-mode evil company auto-complete auto-compile))
+   '(evil-surround delight diminish projectile fireplace dockerfile-mode dockerfile org-bibtex vterm olivetti-mode plantuml-mode go-mode org-ref elisp-format htmlize diminisht yasnippet-classic-snippets yasnippet-snippets yasnippet lsp-clients helm-lsp lsp-ui lsp-mode flycheck-clang-tidy flycheck rg clang-format helm-rg emojify cargo zig-mode rust-mode ob-rust rainbow-delimiters rjsx-mode pdf-tools highlight-indent-guides rainbow-mode evil company auto-complete auto-compile))
  '(projectile-mode t nil (projectile))
  '(send-mail-function 'mailclient-send-it))
 (custom-set-faces

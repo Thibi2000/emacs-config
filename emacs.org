@@ -14,6 +14,21 @@
 ;;(defvaralias 'c-basic-offset 'tab-width)
 ;;(defvaralias 'js2-basic-offset 'defaul-tab-width)
  #+END_SRC
+* util
+** re-seq
+   Deze functie naar alle matches in een een string en geeft een lijst
+   terug. 
+   #+begin_src emacs-lisp
+     ;; from https://emacs.stackexchange.com/a/7150
+     ;; but extended with matching argument
+     (defun re-seq (regexp matching string) 
+       "Get a list of all regexp
+	 matches in a string"
+       (save-match-data (let ((pos 0) matches) 
+			  (while (string-match regexp string pos) 
+			    (push (match-string matching string) matches) 
+			    (setq pos (match-end matching))) matches)))
+   #+end_src
 * delight
   #+begin_src emacs-lisp
     (use-package delight
@@ -33,6 +48,10 @@
 :config (evil-mode 1)
 (with-eval-after-load 'helm
     (define-key evil-motion-state-map "K" 'helm-man-woman)))
+(use-package evil-surround
+  :ensure t
+  :config
+  (global-evil-surround-mode 1))
   #+END_SRC
 * Org
 
@@ -64,19 +83,47 @@
 				   (js . t)
 				   (plantuml . t)))
       (setq org-babel-js-function-wrapper "%s")
+      (defun thibi/create-org-detangle-comments () 
+	"Puts `org-babel-detangle' compatible comments in a source code file
+	      pointing to a named src block in org file" 
+	(interactive) 
+	(let ((org-file (read-file-name "Org-File:")) name-tags name-tag) 
+	  (if (string= (substring org-file -4) ".org") 
+	      (progn 
+		(setq name-tags (re-seq "\\#\\+name: *\\([[:alnum:]\\-]+\\)" 1
+					(with-temp-buffer
+					  (insert-file-contents org-file) 
+					  (buffer-string)))) 
+		(setq name-tag (completing-read (format "name tag[%s]: "
+							(car
+							 name-tags))
+						name-tags nil nil nil nil
+						(car name-tags))) 
+		(let ((code "")) 
+		  (when (use-region-p)
+		    (setq code (buffer-substring-no-properties
+				(region-beginning) (region-end)))
+		    (kill-region (region-beginning) (region-end)))
+		  (insert (format "%1$s[[file:%s::%3$s][%3$s]]\n%s\n%1$s%3$s ends here\n"
+				  comment-start
+				  org-file
+				  name-tag
+				  code)) 
+		  )) 
+	    (message "Not an org-mode file"))))
       (defun thibi/org-insert-property-drawer () 
 	"Wrapper function for calling `org-insert-property-drawer`
-    interactively"
+	interactively"
 	(interactive) 
 	(org-insert-property-drawer)) 
-	;; Settings for converting Latex Math Snippets into images
+      ;; Settings for converting Latex Math Snippets into images
       (setq org-latex-compiler "lualatex")
       (setq org-preview-latex-default-process 'imagemagick)
       (setq org-preview-latex-process-alist
 	    '((imagemagick :programs ("lualatex" "convert") 
 			   :description "pdf > png"
 			   :message "you need to install the
-			   programs: lualatex and imagemagick."
+			       programs: lualatex and imagemagick."
 			   :use-xcolor t 
 			   :image-input-type "pdf" 
 			   :image-output-type
@@ -304,7 +351,7 @@
        (setq lsp-completion-provider :capf)
        :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
 	      ((c++-mode c-mode rust-mode python-mode
-			 go-mode) . lsp-deferred))
+			 go-mode perl-mode) . lsp-deferred))
        :commands (lsp lsp-deferred)
        :bind (:map lsp-mode-map ("C-c C-f" . lsp-format-buffer))
        ("C-l C-a" . lsp-execute-code-action))
@@ -463,11 +510,10 @@
      projectile 
      :ensure t 
      :delight
-     :config (define-key
-	       projectile-mode-map
-	       (kbd "C-c p")
-	       'projectile-command-map) 
+     :bind
+     ("C-c p" . 'projectile-command-map)
+     (:map projectile-mode-map ("M-b" . 'projectile-compile-project))
+     :config  
      (projectile-mode +1)
-     (setq projectile-completion-system 'helm)
-    )
+     (setq projectile-completion-system 'helm))
   #+end_src
